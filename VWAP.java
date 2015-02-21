@@ -122,7 +122,7 @@ public class VWAP {
                             (ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 20, 24)).getInt())));
                     C.put(stock_name, temp);
                     break;
-                case 'X':
+                case 'D':
                     A.remove((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 11, 19)).getLong()));
                     break;
             }
