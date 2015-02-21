@@ -1,3 +1,4 @@
+
 import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,7 +12,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 public class VWAP {
+
     public static class VWAPData {
 
         double price;
@@ -27,6 +30,7 @@ public class VWAP {
             return (this.price + " " + this.volume);
         }
     }
+
     public static class VWAPDataPrice {
 
         double price;
@@ -38,12 +42,16 @@ public class VWAP {
         }
     }
     static HashMap<String, ArrayList<VWAPData>> C = new HashMap<>();
+
     public static void main(String args[]) throws IOException, InterruptedException {
         HashMap<Long, VWAPDataPrice> A = new HashMap<>();
         InputStream input = new FileInputStream(new File("06022014.NASDAQ_ITCH50"));
         int count = 0;
         while (input.read() != -1) {
-            if(count % 50000000 ==0) {System.out.println(C.toString());}count++;
+            if (count % 50000000 == 0) {
+                System.out.println(C.toString());
+            }
+            count++;
             int payLength = input.read();
             byte[] payBytes = new byte[payLength];
             input.read(payBytes);
@@ -51,20 +59,14 @@ public class VWAP {
             switch (str.charAt(0)) {
                 case 'A':
                 case 'F':
-                    if (("" + ((char) payBytes[24]) + "" + ((char) payBytes[25])
-                            + "" + ((char) payBytes[26]) + "" + ((char) payBytes[27])
-                            + "" + ((char) payBytes[28]) + "" + ((char) payBytes[29])
-                            + "" + ((char) payBytes[30]) + "" + ((char) payBytes[31])
-                            + "" + ((char) payBytes[32])).trim().equals("CXO")) {
-                        if ((char) payBytes[19] == 'B') {
-                            A.put((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 11, 19)).getLong()),
-                                    new VWAPDataPrice(((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 32, 36)).getInt()) / 10000),
-                                            "" + ((char) payBytes[24]) + "" + ((char) payBytes[25])
-                                            + "" + ((char) payBytes[26]) + "" + ((char) payBytes[27])
-                                            + "" + ((char) payBytes[28]) + "" + ((char) payBytes[29])
-                                            + "" + ((char) payBytes[30]) + "" + ((char) payBytes[31])
-                                            + "" + ((char) payBytes[32])));
-                        }
+                    if ((char) payBytes[19] == 'B') {
+                        A.put((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 11, 19)).getLong()),
+                                new VWAPDataPrice(((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 32, 36)).getInt()) / 10000),
+                                        "" + ((char) payBytes[24]) + "" + ((char) payBytes[25])
+                                        + "" + ((char) payBytes[26]) + "" + ((char) payBytes[27])
+                                        + "" + ((char) payBytes[28]) + "" + ((char) payBytes[29])
+                                        + "" + ((char) payBytes[30]) + "" + ((char) payBytes[31])
+                                        + "" + ((char) payBytes[32])));
                     }
                     break;
                 case 'U':
@@ -87,10 +89,10 @@ public class VWAP {
                                 (ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 19, 23)).getInt())));
                         C.put(A.get((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 11, 19)).getLong())).name, temp1);
                         A.remove((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 11, 19)).getLong()));
-                    }                    
+                    }
                     break;
                 case 'C':
-                     if (A.get((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 11, 19)).getLong())) != null && (char) payBytes[31] == 'Y') {
+                    if (A.get((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 11, 19)).getLong())) != null && (char) payBytes[31] == 'Y') {
                         ArrayList<VWAPData> temp;
                         if (C.get(A.get((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 11, 19)).getLong())).name) == null) {
                             temp = new ArrayList<>();
@@ -101,15 +103,10 @@ public class VWAP {
                                 (ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 19, 23)).getInt())));
                         C.put(A.get((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 11, 19)).getLong())).name, temp);
                         A.remove((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 11, 19)).getLong()));
-                    }                   
+                    }
                     break;
                 case 'P':
-                    if (("" + ((char) payBytes[24]) + "" + ((char) payBytes[25])
-                            + "" + ((char) payBytes[26]) + "" + ((char) payBytes[27])
-                            + "" + ((char) payBytes[28]) + "" + ((char) payBytes[29])
-                            + "" + ((char) payBytes[30]) + "" + ((char) payBytes[31])
-                            + "" + ((char) payBytes[32])).trim().equals("CXO")) {
-                    ArrayList<VWAPData> temp;                    
+                    ArrayList<VWAPData> temp;
                     String stock_name = "" + ((char) payBytes[24]) + "" + ((char) payBytes[25])
                             + "" + ((char) payBytes[26]) + "" + ((char) payBytes[27])
                             + "" + ((char) payBytes[28]) + "" + ((char) payBytes[29])
@@ -123,8 +120,7 @@ public class VWAP {
                     temp.add(new VWAPData(
                             (((double) (ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 32, 36)).getInt())) / 10000),
                             (ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 20, 24)).getInt())));
-                    C.put(stock_name, temp);                    
-                    }
+                    C.put(stock_name, temp);
                     break;
                 case 'X':
                 case 'D':
@@ -162,6 +158,6 @@ public class VWAP {
             bw.write(output);
         }
         Desktop.getDesktop().open(new File("test.htm"));
-        System.out.println(count+" Done");
+        System.out.println(count + " Done");
     }
 }
