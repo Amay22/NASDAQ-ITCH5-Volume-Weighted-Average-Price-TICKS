@@ -119,6 +119,7 @@ public class VWAP {
                             (ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 20, 24)).getInt())));
                     C.put(stock_name, temp);                    
                     break;
+<<<<<<< HEAD
                 case 'Q':                    
                     ArrayList<VWAPData> tempQ;
                     String stock_nameQ = ("" + ((char) payBytes[19]) + "" + ((char) payBytes[20])
@@ -135,6 +136,8 @@ public class VWAP {
                             (ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 11, 19)).getInt())));
                     C.put(stock_nameQ, tempQ);                                            
                     break;
+=======
+>>>>>>> 9d12a2abac3a1bd1efddccb25ac3888a8df2e19f
                 case 'D':
                     A.remove((ByteBuffer.wrap(Arrays.copyOfRange(payBytes, 11, 19)).getLong()));
                     break;
