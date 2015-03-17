@@ -25,3 +25,5 @@ I can't explain it any better than
 http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:vwap_tick_data
 
 http://www.investopedia.com/terms/v/vwap.asp
+
+# NOTE: It's complete but I haven't implemented broken trade messages. Too lazy for that now. Will do after Semester ends.
